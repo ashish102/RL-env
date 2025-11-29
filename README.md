@@ -18,13 +18,13 @@
 ## 📦 Installation
 
 ```bash
-# Core library
-pip install -r requirements.txt
+# Install dependencies
+uv sync
 
-# Or install specific components
-pip install "gym-pydantic[api]"     # Include REST API
-pip install "gym-pydantic[security]" # Include sandboxing
-pip install "gym-pydantic[all]"      # Everything
+# Install with specific extras
+uv sync --extra api
+uv sync --extra security
+uv sync --all-extras
 ```
 
 ## 🚀 Quick Start
@@ -311,10 +311,10 @@ python -m gym_pydantic.examples.continuous_control
 
 ```bash
 # Run tests
-pytest
+uv run pytest
 
 # With coverage
-pytest --cov=gym_pydantic --cov-report=html
+uv run pytest --cov=gym_pydantic --cov-report=html
 ```
 
 ## 📖 API Reference
