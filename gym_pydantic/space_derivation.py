@@ -62,6 +62,11 @@ def derive_space_from_field(
             for metadata in field_info.metadata:
                 if hasattr(metadata, '__dict__'):
                     constraints.update(metadata.__dict__)
+                else:
+                    # Handle annotated_types (Ge, Le, etc.) which use __slots__
+                    for attr in ['ge', 'le', 'gt', 'lt', 'min_length', 'max_length']:
+                        if hasattr(metadata, attr):
+                            constraints[attr] = getattr(metadata, attr)
 
         max_items = constraints.get('max_length') or field_info.json_schema_extra
         min_items = constraints.get('min_length', 0)
@@ -110,6 +115,11 @@ def derive_space_from_field(
             for metadata in field_info.metadata:
                 if hasattr(metadata, '__dict__'):
                     constraints.update(metadata.__dict__)
+                else:
+                    # Handle annotated_types (Ge, Le, etc.) which use __slots__
+                    for attr in ['ge', 'le', 'gt', 'lt', 'min_length', 'max_length']:
+                        if hasattr(metadata, attr):
+                            constraints[attr] = getattr(metadata, attr)
 
         ge = constraints.get('ge', -np.inf)
         le = constraints.get('le', np.inf)
